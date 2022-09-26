@@ -5,7 +5,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Home() {
 
-
     const [open, setOpen] = React.useState(false);
     const [collection, setCollection] = React.useState("");
     const [mobileNumber, setMobileNumber] = React.useState("");
@@ -57,11 +56,11 @@ function Home() {
                             <label for="mobile_number" className="form-label" style={{ fontSize: "18px" }}><b>Mobile Number</b></label>
                             <input type="text" className="form-control mb-3" id="mobile_number" autoFocus style={{ width: "100%", fontSize: "18px" }} minLength="10" maxLength="10" required value={mobileNumber} onChange={(e) => setMobileNumber(e.target.value)} autoComplete='off' />
                             <label for="new_password" className="form-label" style={{ fontSize: "18px" }}><b>Select Collection</b></label>
-                            <select className="form-select" aria-label="Default select example" required>
+                            <select className="form-select" aria-label="Default select example" required onChange={(e) => setCollection(e.target.value)}>
                                 <option value="">Select Collection</option>
-                                <option value="ST" onChange={(e) => setCollection("ST")}>ST</option>
-                                <option value="FTV" onChange={(e) => setCollection("FTV")}>FTV</option>
-                                <option value="MF" onChange={(e) => setCollection("MF")}>MF</option>
+                                <option value="ST">ST</option>
+                                <option value="FTV">FTV</option>
+                                <option value="MF">MF</option>
                             </select>
                             <button type="submit" className="btn btn-primary w-100 mt-3">Continue</button>
                         </form>
