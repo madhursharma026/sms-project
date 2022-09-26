@@ -25,7 +25,7 @@ function Home() {
 
     function sendSMS(e) {
         e.preventDefault()
-        fetch(`https://2factor.in/API/R1/?module=TRANS_SMS&apikey=e22905d7-a75a-11ec-a4c2-0200cd936042&to=${mobileNumber}&from=DTDTDT&templatename=DTDTDT&var1=${collection}`).then((result) => {
+        fetch(`https://2factor.in/API/R1/?module=TRANS_SMS&apikey=e22905d7-a75a-11ec-a4c2-0200cd936042&to=${mobileNumber}&from=DTDTDT&templatename=DTDTDT&var1=ST`).then((result) => {
             result.json().then((resp) => {
                 if (resp.Status === "success") {
                     setAlertMessageBg('success')
