@@ -1,11 +1,13 @@
 import * as React from "react";
 import { Alert } from '@mui/material';
+import axios from 'axios';
 import Snackbar from '@mui/material/Snackbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Home() {
 
     const [open, setOpen] = React.useState(false);
+    const [btnStatusDisabled, setBtnStatusDisabled] = React.useState("false");
     const [collection, setCollection] = React.useState("");
     const [mobileNumber, setMobileNumber] = React.useState("");
     const [AlertMessage, setAlertMessage] = React.useState("");
@@ -24,19 +26,32 @@ function Home() {
 
     function sendSMS(e) {
         e.preventDefault()
-        fetch(`https://2factor.in/API/R1/?module=TRANS_SMS&apikey=e22905d7-a75a-11ec-a4c2-0200cd936042&to=${mobileNumber}&from=DTDTDT&templatename=DTDTDT&var1=${collection}`).then((result) => {
-            result.json().then((resp) => {
-                if (resp.Status === "success") {
-                    setAlertMessageBg('success')
-                    setAlertMessage("SMS Sent!")
-                    handleClick()
-                } else {
-                    setAlertMessageBg('danger')
-                    setAlertMessage(resp.Details)
-                    handleClick()
-                }
-            })
-        })
+        setBtnStatusDisabled("true")
+        axios.get(`https://2factor.in/API/R1/?module=TRANS_SMS&apikey=e22905d7-a75a-11ec-a4c2-0200cd936042&to=${mobileNumber}&from=DTDTDT&templatename=DTDTDT&var1=${collection}`).then((resp) => {
+            if (resp.Status === "success") {
+                setTimeout(
+                    function () {
+                        setAlertMessageBg('success')
+                        setAlertMessage("SMS Sent!")
+                        handleClick()
+                        setBtnStatusDisabled(false)
+                        setCollection("")
+                        setMobileNumber("")
+                    }.bind(this),
+                    5000
+                );
+            } else {
+                setTimeout(
+                    function () {
+                        setAlertMessageBg('danger')
+                        setAlertMessage(resp.Details)
+                        handleClick()
+                        setBtnStatusDisabled(false)
+                    }.bind(this),
+                    5000
+                );
+            }
+        });
     }
 
     return (
@@ -62,7 +77,7 @@ function Home() {
                                 <option value="FTV">FTV</option>
                                 <option value="MF">MF</option>
                             </select>
-                            <button type="submit" className="btn btn-primary w-100 mt-3">Continue</button>
+                            <button type="submit" className="btn btn-primary w-100 mt-3" disabled={(btnStatusDisabled === "true") ? true : false}>Continue</button>
                         </form>
                     </div>
                 </div>
