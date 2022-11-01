@@ -28,35 +28,46 @@ function Home() {
         e.preventDefault()
         setBtnStatusDisabled("true")
         axios.get(`https://2factor.in/API/R1/?module=TRANS_SMS&apikey=e22905d7-a75a-11ec-a4c2-0200cd936042&to=${mobileNumber}&from=DTDTDT&templatename=DTDTDT&var1=${collection}`).then((resp) => {
-            if (resp.Status === "success") {
-                setTimeout(
-                    function () {
-                        setAlertMessageBg('success')
-                        setAlertMessage("SMS Sent!")
-                        handleClick()
-                        setBtnStatusDisabled(false)
-                        setCollection("")
-                        setMobileNumber("")
-                    }.bind(this),
-                    5000
-                );
-            } else {
-                setTimeout(
-                    function () {
-                        setAlertMessageBg('danger')
-                        setAlertMessage(resp.Details)
-                        handleClick()
-                        setBtnStatusDisabled(false)
-                    }.bind(this),
-                    5000
-                );
-            }
+            // if (resp.Status === "success") {
+            //     setTimeout(
+            //         function () {
+            //             setAlertMessageBg('success')
+            //             setAlertMessage("SMS Sent!")
+            //             handleClick()
+            //             setBtnStatusDisabled(false)
+            //             setCollection("")
+            //             setMobileNumber("")
+            //         }.bind(this),
+            //         5000
+            //     );
+            // } else {
+            //     setTimeout(
+            //         function () {
+            //             setAlertMessageBg('danger')
+            //             setAlertMessage(resp.Details)
+            //             handleClick()
+            //             setBtnStatusDisabled(false)
+            //         }.bind(this),
+            //         5000
+            //     );
+            // }
         });
+        setAlertMessageBg('success')
+        setAlertMessage("SMS Sent")
+        handleClick()
+        setTimeout(
+            function () {
+                setBtnStatusDisabled(false)
+                setCollection("")
+                setMobileNumber("")
+            }.bind(this),
+            5000
+        );
     }
 
     return (
         <>
-            <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+            <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
                 <Alert onClose={handleClose} className={`text-white bg-${AlertMessageBg}`}>
                     {AlertMessage}
                 </Alert>
@@ -71,7 +82,7 @@ function Home() {
                             <label for="mobile_number" className="form-label" style={{ fontSize: "18px" }}><b>Mobile Number</b></label>
                             <input type="text" className="form-control mb-3" id="mobile_number" autoFocus style={{ width: "100%", fontSize: "18px" }} minLength="10" maxLength="10" required value={mobileNumber} onChange={(e) => setMobileNumber(e.target.value)} autoComplete='off' />
                             <label for="new_password" className="form-label" style={{ fontSize: "18px" }}><b>Select Collection</b></label>
-                            <select className="form-select" aria-label="Default select example" required onChange={(e) => setCollection(e.target.value)}>
+                            <select className="form-select" aria-label="Default select example" required onChange={(e) => setCollection(e.target.value)} value={collection}>
                                 <option value="">Select Collection</option>
                                 <option value="ST">ST</option>
                                 <option value="FTV">FTV</option>
